@@ -4,7 +4,8 @@
 //   node packaging/npm/build.mjs [--dist dist] [--out npm-dist] [--version 0.1.0]
 //
 // Output, one folder per package, ready for `npm publish`:
-//   npm-dist/otp-out-darwin-arm64/  package.json (os/cpu), bin/otp-out, LICENSE, README.md
+//   npm-dist/otp-out-darwin-arm64/  @kevinkirsten/otp-out-darwin-arm64: package.json (os/cpu),
+//                                   bin/otp-out, LICENSE, README.md
 //   ...                             (darwin x64, linux arm64/x64, win32 arm64/x64)
 //   npm-dist/otp-out/               the launcher (bin/otp-out.js) with the six
 //                                   platform packages as optionalDependencies
@@ -63,9 +64,12 @@ function main() {
   for (const t of targets) {
     const artifact = artifacts.find((a) => a.type === "Binary" && a.goos === t.goos && a.goarch === t.goarch);
     if (!artifact) throw new Error(`no binary for ${t.goos}/${t.goarch} in ${dist}/artifacts.json`);
-    const name = `otp-out-${t.os}-${t.cpu}`;
+    // Scoped under the author's npm user: npm's spam filter rejects several
+    // unscoped look-alike names (otp-out-win32-arm64 was refused).
+    const dir = `otp-out-${t.os}-${t.cpu}`;
+    const name = `@kevinkirsten/${dir}`;
     const exe = t.os === "win32" ? "otp-out.exe" : "otp-out";
-    const pkgDir = join(outDir, name);
+    const pkgDir = join(outDir, dir);
     mkdirSync(join(pkgDir, "bin"), { recursive: true });
     const source = resolve(dirname(dist), artifact.path);
     copyFileSync(source, join(pkgDir, "bin", exe));

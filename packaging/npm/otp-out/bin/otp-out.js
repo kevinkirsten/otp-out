@@ -2,7 +2,7 @@
 // Launcher for `npx otp-out` and `pnpm dlx otp-out`.
 //
 // The real program is a Go binary shipped in a platform package
-// (otp-out-darwin-arm64, otp-out-win32-x64, ...) that npm installs as an
+// (@kevinkirsten/otp-out-darwin-arm64, @kevinkirsten/otp-out-win32-x64, ...) that npm installs as an
 // optional dependency matching this machine's os and cpu. There is no
 // install script: this file only finds that binary and runs it with the same
 // arguments, standard input, output and exit code.
@@ -13,12 +13,12 @@ const fs = require("node:fs");
 const path = require("node:path");
 
 const platforms = {
-  "darwin-arm64": "otp-out-darwin-arm64",
-  "darwin-x64": "otp-out-darwin-x64",
-  "linux-arm64": "otp-out-linux-arm64",
-  "linux-x64": "otp-out-linux-x64",
-  "win32-arm64": "otp-out-win32-arm64",
-  "win32-x64": "otp-out-win32-x64",
+  "darwin-arm64": "@kevinkirsten/otp-out-darwin-arm64",
+  "darwin-x64": "@kevinkirsten/otp-out-darwin-x64",
+  "linux-arm64": "@kevinkirsten/otp-out-linux-arm64",
+  "linux-x64": "@kevinkirsten/otp-out-linux-x64",
+  "win32-arm64": "@kevinkirsten/otp-out-win32-arm64",
+  "win32-x64": "@kevinkirsten/otp-out-win32-x64",
 };
 
 function findBinary() {
