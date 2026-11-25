@@ -89,7 +89,10 @@ jobs:
           git commit -m "otp-out ${VERSION}"
           git push origin HEAD
 
+      # Off until the 7 packages exist on npmjs.com with this workflow set as
+      # trusted publisher. Turn on with the repository variable NPM_PUBLISH=true.
       - name: npm packages
+        if: vars.NPM_PUBLISH == 'true'
         env:
           VERSION: ${{ steps.version.outputs.version }}
         run: |
