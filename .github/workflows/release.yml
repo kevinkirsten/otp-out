@@ -5,10 +5,9 @@
 #   2. The Homebrew formula is rendered from packaging/homebrew/otp-out.rb.tmpl
 #      and pushed to kevinkirsten/homebrew-tap with a deploy key
 #      (secret HOMEBREW_TAP_DEPLOY_KEY, write access to that repository only).
-#   3. The npm packages are built from dist/ and published with npm Trusted
-#      Publishing (OIDC): no npm token is stored. Each of the 7 packages must
-#      have this repository and this workflow file (release.yml) configured
-#      as trusted publisher on npmjs.com.
+#   3. The npm packages are built from dist/ and STAGED with npm Trusted
+#      Publishing (OIDC): no npm token is stored, and each staged package
+#      only goes live after the maintainer approves it with 2FA.
 #   4. The winget manifests are rendered and attached to the release as an
 #      artifact. The pull request to microsoft/winget-pkgs is opened by hand.
 name: release
@@ -89,24 +88,31 @@ jobs:
           git commit -m "otp-out ${VERSION}"
           git push origin HEAD
 
-      # Off until the 7 packages exist on npmjs.com with this workflow set as
-      # trusted publisher. Turn on with the repository variable NPM_PUBLISH=true.
-      - name: npm packages
+      # Runs only when the repository variable NPM_PUBLISH is true, which is
+      # set once the 7 packages have this workflow as trusted publisher on
+      # npmjs.com (npm trust github ... --allow-stage-publish).
+      #
+      # The trusted publisher may only STAGE a version: nothing goes live
+      # until the maintainer approves each staged package with 2FA
+      # (npm stage list / npm stage approve <id>). A compromised workflow
+      # cannot publish on its own.
+      - name: npm packages (staged, need approval)
         if: vars.NPM_PUBLISH == 'true'
         env:
           VERSION: ${{ steps.version.outputs.version }}
         run: |
           set -euo pipefail
-          # Trusted Publishing needs npm 11.5.1 or later.
-          npm install -g npm@11.21.3
+          # npm stage and Trusted Publishing need npm 12.
+          npm install -g npm@12.2.3
           node packaging/npm/build.mjs --dist dist --out npm-dist --version "$VERSION"
           tag=latest
           case "$VERSION" in *-*) tag=next;; esac
           # Platform packages first, then the launcher that depends on them.
           for dir in npm-dist/otp-out-*; do
-            (cd "$dir" && npm publish --access public --tag "$tag")
+            (cd "$dir" && npm stage publish . --access public --tag "$tag")
           done
-          (cd npm-dist/otp-out && npm publish --access public --tag "$tag")
+          (cd npm-dist/otp-out && npm stage publish . --access public --tag "$tag")
+          echo "::notice::npm packages staged. Approve them with: npm stage list, then npm stage approve <id>"
 
       - name: winget manifests
         env:
