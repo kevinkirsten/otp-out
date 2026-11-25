@@ -1,0 +1,26 @@
+version: "2"
+
+run:
+  build-tags:
+    - nodynamic
+    - wasm2go
+
+linters:
+  default: standard
+  enable:
+    - errorlint
+    - misspell
+    - unconvert
+    - gocritic
+  settings:
+    errcheck:
+      exclude-functions:
+        - fmt.Fprint
+        - fmt.Fprintf
+        - fmt.Fprintln
+    gocritic:
+      disabled-checks:
+        - ifElseChain
+  exclusions:
+    paths:
+      - web

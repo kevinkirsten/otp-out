@@ -1,0 +1,8 @@
+node_modules
+dist
+dist-visual
+test-results
+playwright-report
+blob-report
+*.tsbuildinfo
+.vite

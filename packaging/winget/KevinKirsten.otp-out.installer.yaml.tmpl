@@ -1,0 +1,22 @@
+# yaml-language-server: $schema=https://aka.ms/winget-manifest.installer.1.12.0.schema.json
+# Template: rendered by packaging/fill.mjs.
+
+PackageIdentifier: KevinKirsten.otp-out
+PackageVersion: {{VERSION}}
+InstallerType: zip
+NestedInstallerType: portable
+NestedInstallerFiles:
+  - RelativeFilePath: otp-out.exe
+    PortableCommandAlias: otp-out
+Commands:
+  - otp-out
+ReleaseDate: {{RELEASE_DATE}}
+Installers:
+  - Architecture: x64
+    InstallerUrl: https://github.com/kevinkirsten/otp-out/releases/download/v{{VERSION}}/otp-out_{{VERSION}}_windows_amd64.zip
+    InstallerSha256: {{SHA256_WINDOWS_AMD64}}
+  - Architecture: arm64
+    InstallerUrl: https://github.com/kevinkirsten/otp-out/releases/download/v{{VERSION}}/otp-out_{{VERSION}}_windows_arm64.zip
+    InstallerSha256: {{SHA256_WINDOWS_ARM64}}
+ManifestType: installer
+ManifestVersion: 1.12.0

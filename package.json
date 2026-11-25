@@ -1,0 +1,11 @@
+{
+  "name": "otp-out-repo",
+  "private": true,
+  "description": "Development scripts for otp-out. The published npm package is built by packaging/npm/build.mjs.",
+  "license": "MIT",
+  "scripts": {
+    "otp-out": "go run -tags nodynamic,wasm2go .",
+    "test": "go test ./...",
+    "npm:build": "node packaging/npm/build.mjs"
+  }
+}

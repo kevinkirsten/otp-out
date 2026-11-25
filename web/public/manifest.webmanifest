@@ -1,0 +1,16 @@
+{
+  "name": "otp-out",
+  "short_name": "otp-out",
+  "description": "Do QR de exportação do Google Authenticator para o link otpauth:// de cada conta, sem nada sair do navegador.",
+  "lang": "pt-BR",
+  "start_url": "/otp-out/",
+  "scope": "/otp-out/",
+  "display": "standalone",
+  "background_color": "#fbfaf8",
+  "theme_color": "#0b5cad",
+  "icons": [
+    { "src": "/otp-out/icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "/otp-out/icon-512.png", "sizes": "512x512", "type": "image/png" },
+    { "src": "/otp-out/favicon.svg", "sizes": "any", "type": "image/svg+xml" }
+  ]
+}

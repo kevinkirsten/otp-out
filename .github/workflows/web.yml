@@ -1,0 +1,77 @@
+# Página web (web/): lint, typecheck, testes unitários (Vitest), build e
+# testes E2E (Playwright) no build de produção. Só roda quando web/ ou o
+# contrato compartilhado com o CLI (testdata/) mudam.
+name: web
+
+on:
+  push:
+    paths:
+      - "web/**"
+      - "testdata/**"
+      - ".github/workflows/web.yml"
+  pull_request:
+    paths:
+      - "web/**"
+      - "testdata/**"
+      - ".github/workflows/web.yml"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: web-${{ github.ref }}
+  cancel-in-progress: true
+
+defaults:
+  run:
+    working-directory: web
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v7.0.1
+
+      - uses: pnpm/action-setup@v6.1.1
+        with:
+          package_json_file: web/package.json
+
+      - uses: actions/setup-node@v7.1.0
+        with:
+          node-version: 22
+          cache: pnpm
+          cache-dependency-path: web/pnpm-lock.yaml
+
+      - name: Instalar dependências (lockfile congelado)
+        run: pnpm install --frozen-lockfile
+
+      - name: Lint
+        run: pnpm lint
+
+      - name: Typecheck
+        run: pnpm typecheck
+
+      - name: Testes unitários (vectors.json, base32, percent-encoding, lotes)
+        run: pnpm test
+
+      - name: Build de produção
+        run: pnpm build
+
+      - name: Navegadores do Playwright
+        run: pnpm exec playwright install --with-deps chromium webkit firefox
+
+      - name: Testes E2E (Chromium, WebKit, Firefox)
+        run: pnpm test:e2e
+        env:
+          CI: "true"
+
+      - name: Relatório do Playwright
+        if: failure()
+        uses: actions/upload-artifact@v7.0.2
+        with:
+          name: playwright-report
+          path: |
+            web/playwright-report
+            web/test-results
+          retention-days: 7

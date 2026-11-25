@@ -1,0 +1,501 @@
+{
+  "comment": "Casos compartilhados pelo CLI (Go) e pela pagina (TypeScript). TODOS os segredos sao FALSOS. Gerado a partir do otp_import.py original.",
+  "rfc4648_base32": [
+    {
+      "ascii": "",
+      "base32": ""
+    },
+    {
+      "ascii": "f",
+      "base32": "MY"
+    },
+    {
+      "ascii": "fo",
+      "base32": "MZXQ"
+    },
+    {
+      "ascii": "foo",
+      "base32": "MZXW6"
+    },
+    {
+      "ascii": "foob",
+      "base32": "MZXW6YQ"
+    },
+    {
+      "ascii": "fooba",
+      "base32": "MZXW6YTB"
+    },
+    {
+      "ascii": "foobar",
+      "base32": "MZXW6YTBOI"
+    }
+  ],
+  "cases": [
+    {
+      "name": "one_account",
+      "note": "",
+      "input": "otpauth-migration://offline?data=CiwKCkhlbGxvId6tvu8SD2FuYUBleGVtcGxvLmNvbRoHRXhlbXBsbyABKAEwAhABGAEgACiSIQ%3D%3D",
+      "batch": {
+        "size": 1,
+        "index": 0,
+        "id": 4242
+      },
+      "accounts": [
+        {
+          "issuer": "Exemplo",
+          "name": "ana@exemplo.com",
+          "type": "totp",
+          "algorithm": "SHA1",
+          "digits": 6,
+          "counter": 0,
+          "secret": "JBSWY3DPEHPK3PXP",
+          "uri": "otpauth://totp/Exemplo:ana@exemplo.com?secret=JBSWY3DPEHPK3PXP&issuer=Exemplo&algorithm=SHA1&digits=6&period=30"
+        }
+      ]
+    },
+    {
+      "name": "two_accounts_issuer_repeated_in_name",
+      "note": "",
+      "input": "otpauth-migration://offline?data=CiwKCkhlbGxvId6tvu8SD2FuYUBleGVtcGxvLmNvbRoHRXhlbXBsbyABKAEwAgo9CgoxMjM0NTY3ODkwEhxPdXRyYSBGaXJtYTpqb2FvQGV4ZW1wbG8uY29tGgtPdXRyYSBGaXJtYSABKAEwAhABGAEgACiSIQ%3D%3D",
+      "batch": {
+        "size": 1,
+        "index": 0,
+        "id": 4242
+      },
+      "accounts": [
+        {
+          "issuer": "Exemplo",
+          "name": "ana@exemplo.com",
+          "type": "totp",
+          "algorithm": "SHA1",
+          "digits": 6,
+          "counter": 0,
+          "secret": "JBSWY3DPEHPK3PXP",
+          "uri": "otpauth://totp/Exemplo:ana@exemplo.com?secret=JBSWY3DPEHPK3PXP&issuer=Exemplo&algorithm=SHA1&digits=6&period=30"
+        },
+        {
+          "issuer": "Outra Firma",
+          "name": "joao@exemplo.com",
+          "type": "totp",
+          "algorithm": "SHA1",
+          "digits": 6,
+          "counter": 0,
+          "secret": "GEZDGNBVGY3TQOJQ",
+          "uri": "otpauth://totp/Outra%20Firma:joao@exemplo.com?secret=GEZDGNBVGY3TQOJQ&issuer=Outra%20Firma&algorithm=SHA1&digits=6&period=30"
+        }
+      ]
+    },
+    {
+      "name": "hotp_with_counter",
+      "note": "",
+      "input": "otpauth-migration://offline?data=CiMKCkhlbGxvId6tvu8SA2FuYRoHRXhlbXBsbyABKAEwATisAhABGAEgACiSIQ%3D%3D",
+      "batch": {
+        "size": 1,
+        "index": 0,
+        "id": 4242
+      },
+      "accounts": [
+        {
+          "issuer": "Exemplo",
+          "name": "ana",
+          "type": "hotp",
+          "algorithm": "SHA1",
+          "digits": 6,
+          "counter": 300,
+          "secret": "JBSWY3DPEHPK3PXP",
+          "uri": "otpauth://hotp/Exemplo:ana?secret=JBSWY3DPEHPK3PXP&issuer=Exemplo&algorithm=SHA1&digits=6&counter=300"
+        }
+      ]
+    },
+    {
+      "name": "sha256_eight_digits",
+      "note": "",
+      "input": "otpauth-migration://offline?data=CjAKIAECAwQFBgcICQoLDA0ODxAREhMUFRYXGBkaGxwdHh8gEgNhbmEaAVggAigCMAIQARgBIAAokiE%3D",
+      "batch": {
+        "size": 1,
+        "index": 0,
+        "id": 4242
+      },
+      "accounts": [
+        {
+          "issuer": "X",
+          "name": "ana",
+          "type": "totp",
+          "algorithm": "SHA256",
+          "digits": 8,
+          "counter": 0,
+          "secret": "AEBAGBAFAYDQQCIKBMGA2DQPCAIREEYUCULBOGAZDINRYHI6D4QA",
+          "uri": "otpauth://totp/X:ana?secret=AEBAGBAFAYDQQCIKBMGA2DQPCAIREEYUCULBOGAZDINRYHI6D4QA&issuer=X&algorithm=SHA256&digits=8&period=30"
+        }
+      ]
+    },
+    {
+      "name": "sha512",
+      "note": "",
+      "input": "otpauth-migration://offline?data=CjAKIAECAwQFBgcICQoLDA0ODxAREhMUFRYXGBkaGxwdHh8gEgNhbmEaAVggAygBMAIQARgBIAAokiE%3D",
+      "batch": {
+        "size": 1,
+        "index": 0,
+        "id": 4242
+      },
+      "accounts": [
+        {
+          "issuer": "X",
+          "name": "ana",
+          "type": "totp",
+          "algorithm": "SHA512",
+          "digits": 6,
+          "counter": 0,
+          "secret": "AEBAGBAFAYDQQCIKBMGA2DQPCAIREEYUCULBOGAZDINRYHI6D4QA",
+          "uri": "otpauth://totp/X:ana?secret=AEBAGBAFAYDQQCIKBMGA2DQPCAIREEYUCULBOGAZDINRYHI6D4QA&issuer=X&algorithm=SHA512&digits=6&period=30"
+        }
+      ]
+    },
+    {
+      "name": "unspecified_enums_default_totp_sha1_6",
+      "note": "",
+      "input": "otpauth-migration://offline?data=ChoKCkhlbGxvId6tvu8SA2FuYRoBWCAAKAAwABABGAEgACiSIQ%3D%3D",
+      "batch": {
+        "size": 1,
+        "index": 0,
+        "id": 4242
+      },
+      "accounts": [
+        {
+          "issuer": "X",
+          "name": "ana",
+          "type": "totp",
+          "algorithm": "SHA1",
+          "digits": 6,
+          "counter": 0,
+          "secret": "JBSWY3DPEHPK3PXP",
+          "uri": "otpauth://totp/X:ana?secret=JBSWY3DPEHPK3PXP&issuer=X&algorithm=SHA1&digits=6&period=30"
+        }
+      ]
+    },
+    {
+      "name": "issuer_taken_from_name",
+      "note": "",
+      "input": "otpauth-migration://offline?data=CiEKCkhlbGxvId6tvu8SC0V4ZW1wbG86YW5hGgAgASgBMAIQARgBIAAokiE%3D",
+      "batch": {
+        "size": 1,
+        "index": 0,
+        "id": 4242
+      },
+      "accounts": [
+        {
+          "issuer": "Exemplo",
+          "name": "ana",
+          "type": "totp",
+          "algorithm": "SHA1",
+          "digits": 6,
+          "counter": 0,
+          "secret": "JBSWY3DPEHPK3PXP",
+          "uri": "otpauth://totp/Exemplo:ana?secret=JBSWY3DPEHPK3PXP&issuer=Exemplo&algorithm=SHA1&digits=6&period=30"
+        }
+      ]
+    },
+    {
+      "name": "no_issuer_at_all",
+      "note": "",
+      "input": "otpauth-migration://offline?data=CiUKCkhlbGxvId6tvu8SD2FuYUBleGVtcGxvLmNvbRoAIAEoATACEAEYASAAKJIh",
+      "batch": {
+        "size": 1,
+        "index": 0,
+        "id": 4242
+      },
+      "accounts": [
+        {
+          "issuer": "",
+          "name": "ana@exemplo.com",
+          "type": "totp",
+          "algorithm": "SHA1",
+          "digits": 6,
+          "counter": 0,
+          "secret": "JBSWY3DPEHPK3PXP",
+          "uri": "otpauth://totp/ana@exemplo.com?secret=JBSWY3DPEHPK3PXP&algorithm=SHA1&digits=6&period=30"
+        }
+      ]
+    },
+    {
+      "name": "accents_spaces_and_symbols",
+      "note": "percent-encoding: tudo fora de A-Za-z0-9_.-~ é escapado; no nome o @ fica literal",
+      "input": "otpauth-migration://offline?data=CkgKCjEyMzQ1Njc4OTASF2pvw6NvK3Rlc3RlQGV4ZW1wbG8uY29tGhtDYWbDqSAmIEHDp8OjbyAvIFPDo28gUGF1bG8gASgBMAIQARgBIAAokiE%3D",
+      "batch": {
+        "size": 1,
+        "index": 0,
+        "id": 4242
+      },
+      "accounts": [
+        {
+          "issuer": "Café & Ação / São Paulo",
+          "name": "joão+teste@exemplo.com",
+          "type": "totp",
+          "algorithm": "SHA1",
+          "digits": 6,
+          "counter": 0,
+          "secret": "GEZDGNBVGY3TQOJQ",
+          "uri": "otpauth://totp/Caf%C3%A9%20%26%20A%C3%A7%C3%A3o%20%2F%20S%C3%A3o%20Paulo:jo%C3%A3o%2Bteste@exemplo.com?secret=GEZDGNBVGY3TQOJQ&issuer=Caf%C3%A9%20%26%20A%C3%A7%C3%A3o%20%2F%20S%C3%A3o%20Paulo&algorithm=SHA1&digits=6&period=30"
+        }
+      ]
+    },
+    {
+      "name": "plus_not_percent_encoded",
+      "note": "alguns leitores entregam + cru; não pode virar espaço",
+      "input": "otpauth-migration://offline?data=CiIKDPv//vv//vv//vv//hIDYW5hGgdFeGVtcGxvIAEoATACEAEYASAAKJIh",
+      "batch": {
+        "size": 1,
+        "index": 0,
+        "id": 4242
+      },
+      "accounts": [
+        {
+          "issuer": "Exemplo",
+          "name": "ana",
+          "type": "totp",
+          "algorithm": "SHA1",
+          "digits": 6,
+          "counter": 0,
+          "secret": "7P775677735777X3777A",
+          "uri": "otpauth://totp/Exemplo:ana?secret=7P775677735777X3777A&issuer=Exemplo&algorithm=SHA1&digits=6&period=30"
+        }
+      ]
+    },
+    {
+      "name": "batch_2_of_3",
+      "note": "",
+      "input": "otpauth-migration://offline?data=ChgKCkhlbGxvId6tvu8SAWEaAWIgASgBMAIQARgDIAEoTQ%3D%3D",
+      "batch": {
+        "size": 3,
+        "index": 1,
+        "id": 77
+      },
+      "accounts": [
+        {
+          "issuer": "b",
+          "name": "a",
+          "type": "totp",
+          "algorithm": "SHA1",
+          "digits": 6,
+          "counter": 0,
+          "secret": "JBSWY3DPEHPK3PXP",
+          "uri": "otpauth://totp/b:a?secret=JBSWY3DPEHPK3PXP&issuer=b&algorithm=SHA1&digits=6&period=30"
+        }
+      ]
+    },
+    {
+      "name": "batch_1_of_3",
+      "note": "",
+      "input": "otpauth-migration://offline?data=ChgKCjEyMzQ1Njc4OTASAWMaAWQgASgBMAIQARgDIAAoTQ%3D%3D",
+      "batch": {
+        "size": 3,
+        "index": 0,
+        "id": 77
+      },
+      "accounts": [
+        {
+          "issuer": "d",
+          "name": "c",
+          "type": "totp",
+          "algorithm": "SHA1",
+          "digits": 6,
+          "counter": 0,
+          "secret": "GEZDGNBVGY3TQOJQ",
+          "uri": "otpauth://totp/d:c?secret=GEZDGNBVGY3TQOJQ&issuer=d&algorithm=SHA1&digits=6&period=30"
+        }
+      ]
+    },
+    {
+      "name": "ten_accounts_dense",
+      "note": "QR denso, para o teste de leitura de imagem",
+      "input": "otpauth-migration://offline?data=CjwKFAEBAQEBAQEBAQEBAQEBAQEBAQEBEhNwZXNzb2EwQGV4ZW1wbG8uY29tGglTZXJ2aWNvIDAgASgBMAIKPAoUAgICAgICAgICAgICAgICAgICAgISE3Blc3NvYTFAZXhlbXBsby5jb20aCVNlcnZpY28gMSABKAEwAgo8ChQDAwMDAwMDAwMDAwMDAwMDAwMDAxITcGVzc29hMkBleGVtcGxvLmNvbRoJU2VydmljbyAyIAEoATACCjwKFAQEBAQEBAQEBAQEBAQEBAQEBAQEEhNwZXNzb2EzQGV4ZW1wbG8uY29tGglTZXJ2aWNvIDMgASgBMAIKPAoUBQUFBQUFBQUFBQUFBQUFBQUFBQUSE3Blc3NvYTRAZXhlbXBsby5jb20aCVNlcnZpY28gNCABKAEwAgo8ChQGBgYGBgYGBgYGBgYGBgYGBgYGBhITcGVzc29hNUBleGVtcGxvLmNvbRoJU2VydmljbyA1IAEoATACCjwKFAcHBwcHBwcHBwcHBwcHBwcHBwcHEhNwZXNzb2E2QGV4ZW1wbG8uY29tGglTZXJ2aWNvIDYgASgBMAIKPAoUCAgICAgICAgICAgICAgICAgICAgSE3Blc3NvYTdAZXhlbXBsby5jb20aCVNlcnZpY28gNyABKAEwAgo8ChQJCQkJCQkJCQkJCQkJCQkJCQkJCRITcGVzc29hOEBleGVtcGxvLmNvbRoJU2VydmljbyA4IAEoATACCjwKFAoKCgoKCgoKCgoKCgoKCgoKCgoKEhNwZXNzb2E5QGV4ZW1wbG8uY29tGglTZXJ2aWNvIDkgASgBMAIQARgBIAAokiE%3D",
+      "batch": {
+        "size": 1,
+        "index": 0,
+        "id": 4242
+      },
+      "accounts": [
+        {
+          "issuer": "Servico 0",
+          "name": "pessoa0@exemplo.com",
+          "type": "totp",
+          "algorithm": "SHA1",
+          "digits": 6,
+          "counter": 0,
+          "secret": "AEAQCAIBAEAQCAIBAEAQCAIBAEAQCAIB",
+          "uri": "otpauth://totp/Servico%200:pessoa0@exemplo.com?secret=AEAQCAIBAEAQCAIBAEAQCAIBAEAQCAIB&issuer=Servico%200&algorithm=SHA1&digits=6&period=30"
+        },
+        {
+          "issuer": "Servico 1",
+          "name": "pessoa1@exemplo.com",
+          "type": "totp",
+          "algorithm": "SHA1",
+          "digits": 6,
+          "counter": 0,
+          "secret": "AIBAEAQCAIBAEAQCAIBAEAQCAIBAEAQC",
+          "uri": "otpauth://totp/Servico%201:pessoa1@exemplo.com?secret=AIBAEAQCAIBAEAQCAIBAEAQCAIBAEAQC&issuer=Servico%201&algorithm=SHA1&digits=6&period=30"
+        },
+        {
+          "issuer": "Servico 2",
+          "name": "pessoa2@exemplo.com",
+          "type": "totp",
+          "algorithm": "SHA1",
+          "digits": 6,
+          "counter": 0,
+          "secret": "AMBQGAYDAMBQGAYDAMBQGAYDAMBQGAYD",
+          "uri": "otpauth://totp/Servico%202:pessoa2@exemplo.com?secret=AMBQGAYDAMBQGAYDAMBQGAYDAMBQGAYD&issuer=Servico%202&algorithm=SHA1&digits=6&period=30"
+        },
+        {
+          "issuer": "Servico 3",
+          "name": "pessoa3@exemplo.com",
+          "type": "totp",
+          "algorithm": "SHA1",
+          "digits": 6,
+          "counter": 0,
+          "secret": "AQCAIBAEAQCAIBAEAQCAIBAEAQCAIBAE",
+          "uri": "otpauth://totp/Servico%203:pessoa3@exemplo.com?secret=AQCAIBAEAQCAIBAEAQCAIBAEAQCAIBAE&issuer=Servico%203&algorithm=SHA1&digits=6&period=30"
+        },
+        {
+          "issuer": "Servico 4",
+          "name": "pessoa4@exemplo.com",
+          "type": "totp",
+          "algorithm": "SHA1",
+          "digits": 6,
+          "counter": 0,
+          "secret": "AUCQKBIFAUCQKBIFAUCQKBIFAUCQKBIF",
+          "uri": "otpauth://totp/Servico%204:pessoa4@exemplo.com?secret=AUCQKBIFAUCQKBIFAUCQKBIFAUCQKBIF&issuer=Servico%204&algorithm=SHA1&digits=6&period=30"
+        },
+        {
+          "issuer": "Servico 5",
+          "name": "pessoa5@exemplo.com",
+          "type": "totp",
+          "algorithm": "SHA1",
+          "digits": 6,
+          "counter": 0,
+          "secret": "AYDAMBQGAYDAMBQGAYDAMBQGAYDAMBQG",
+          "uri": "otpauth://totp/Servico%205:pessoa5@exemplo.com?secret=AYDAMBQGAYDAMBQGAYDAMBQGAYDAMBQG&issuer=Servico%205&algorithm=SHA1&digits=6&period=30"
+        },
+        {
+          "issuer": "Servico 6",
+          "name": "pessoa6@exemplo.com",
+          "type": "totp",
+          "algorithm": "SHA1",
+          "digits": 6,
+          "counter": 0,
+          "secret": "A4DQOBYHA4DQOBYHA4DQOBYHA4DQOBYH",
+          "uri": "otpauth://totp/Servico%206:pessoa6@exemplo.com?secret=A4DQOBYHA4DQOBYHA4DQOBYHA4DQOBYH&issuer=Servico%206&algorithm=SHA1&digits=6&period=30"
+        },
+        {
+          "issuer": "Servico 7",
+          "name": "pessoa7@exemplo.com",
+          "type": "totp",
+          "algorithm": "SHA1",
+          "digits": 6,
+          "counter": 0,
+          "secret": "BAEAQCAIBAEAQCAIBAEAQCAIBAEAQCAI",
+          "uri": "otpauth://totp/Servico%207:pessoa7@exemplo.com?secret=BAEAQCAIBAEAQCAIBAEAQCAIBAEAQCAI&issuer=Servico%207&algorithm=SHA1&digits=6&period=30"
+        },
+        {
+          "issuer": "Servico 8",
+          "name": "pessoa8@exemplo.com",
+          "type": "totp",
+          "algorithm": "SHA1",
+          "digits": 6,
+          "counter": 0,
+          "secret": "BEEQSCIJBEEQSCIJBEEQSCIJBEEQSCIJ",
+          "uri": "otpauth://totp/Servico%208:pessoa8@exemplo.com?secret=BEEQSCIJBEEQSCIJBEEQSCIJBEEQSCIJ&issuer=Servico%208&algorithm=SHA1&digits=6&period=30"
+        },
+        {
+          "issuer": "Servico 9",
+          "name": "pessoa9@exemplo.com",
+          "type": "totp",
+          "algorithm": "SHA1",
+          "digits": 6,
+          "counter": 0,
+          "secret": "BIFAUCQKBIFAUCQKBIFAUCQKBIFAUCQK",
+          "uri": "otpauth://totp/Servico%209:pessoa9@exemplo.com?secret=BIFAUCQKBIFAUCQKBIFAUCQKBIFAUCQK&issuer=Servico%209&algorithm=SHA1&digits=6&period=30"
+        }
+      ]
+    },
+    {
+      "name": "md5_unsupported",
+      "note": "uri null: algoritmo sem suporte, a conta é avisada e pulada",
+      "input": "otpauth-migration://offline?data=ChgKCkhlbGxvId6tvu8SAWEaAWIgBCgBMAIQARgBIAAokiE%3D",
+      "batch": {
+        "size": 1,
+        "index": 0,
+        "id": 4242
+      },
+      "accounts": [
+        {
+          "issuer": "b",
+          "name": "a",
+          "type": "totp",
+          "algorithm": "MD5",
+          "digits": 6,
+          "counter": 0,
+          "secret": "JBSWY3DPEHPK3PXP",
+          "uri": null
+        }
+      ]
+    },
+    {
+      "name": "leading_trailing_whitespace",
+      "note": "",
+      "input": "  otpauth-migration://offline?data=CiwKCkhlbGxvId6tvu8SD2FuYUBleGVtcGxvLmNvbRoHRXhlbXBsbyABKAEwAhABGAEgACiSIQ%3D%3D\n",
+      "batch": {
+        "size": 1,
+        "index": 0,
+        "id": 4242
+      },
+      "accounts": [
+        {
+          "issuer": "Exemplo",
+          "name": "ana@exemplo.com",
+          "type": "totp",
+          "algorithm": "SHA1",
+          "digits": 6,
+          "counter": 0,
+          "secret": "JBSWY3DPEHPK3PXP",
+          "uri": "otpauth://totp/Exemplo:ana@exemplo.com?secret=JBSWY3DPEHPK3PXP&issuer=Exemplo&algorithm=SHA1&digits=6&period=30"
+        }
+      ]
+    },
+    {
+      "name": "wrong_scheme",
+      "note": "",
+      "input": "otpauth://totp/x?secret=ABC",
+      "error": true
+    },
+    {
+      "name": "not_a_uri",
+      "note": "",
+      "input": "https://exemplo.com",
+      "error": true
+    },
+    {
+      "name": "missing_data",
+      "note": "",
+      "input": "otpauth-migration://offline",
+      "error": true
+    },
+    {
+      "name": "invalid_base64",
+      "note": "",
+      "input": "otpauth-migration://offline?data=%%%",
+      "error": true
+    },
+    {
+      "name": "truncated_payload",
+      "note": "",
+      "input": "otpauth-migration://offline?data=ChgKCkhlbGxvId6tvu8SAWEaAWIgASgBMAIQARg%3D",
+      "error": true
+    },
+    {
+      "name": "account_without_secret",
+      "note": "",
+      "input": "otpauth-migration://offline?data=Cg4KABIBYRoBYiABKAEwAhABGAEgACiSIQ%3D%3D",
+      "error": true
+    }
+  ]
+}

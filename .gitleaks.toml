@@ -1,0 +1,36 @@
+# gitleaks configuration for otp-out.
+#
+# This repository must never contain a real OTP secret or a real QR code.
+# The only secrets here are FAKE test values. They are listed below so the
+# scanner stays quiet about them and still catches anything else.
+
+title = "otp-out"
+
+[extend]
+useDefault = true
+
+[[allowlists]]
+description = "Shared test vectors (CLI and web page); every secret in it is fake"
+paths = [
+  '''(^|/)testdata/vectors\.json$''',
+]
+
+[[allowlists]]
+description = "Build output and dependencies, never committed"
+paths = [
+  '''(^|/)node_modules/''',
+  '''(^|/)dist/''',
+  '''(^|/)npm-dist/''',
+  '''(^|/)\.pnpm-store/''',
+]
+
+[[allowlists]]
+description = "Known fake OTP secrets used in tests and documentation"
+regexTarget = "match"
+regexes = [
+  '''JBSWY3DPEHPK3PXP''',
+  '''GEZDGNBVGY3TQOJQ''',
+  '''AEBAGBAFAYDQQCIKBMGA2DQPCAIREEYUCULBOGAZDINRYHI6D4QA''',
+  '''7P775677735777X3777A''',
+  '''OLDOLDOLD''',
+]

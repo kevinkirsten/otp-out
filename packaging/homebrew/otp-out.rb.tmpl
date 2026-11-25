@@ -1,0 +1,44 @@
+# Homebrew formula for otp-out, rendered by packaging/fill.mjs during the
+# release and pushed to github.com/kevinkirsten/homebrew-tap (Formula/).
+#
+# A formula (not a cask) on purpose: Homebrew does not quarantine formula
+# downloads, so the unsigned binary runs without a Gatekeeper prompt.
+class OtpOut < Formula
+  desc "Turn a Google Authenticator export QR code into otpauth:// URIs"
+  homepage "https://github.com/kevinkirsten/otp-out"
+  version "{{VERSION}}"
+  license "MIT"
+
+  on_macos do
+    on_arm do
+      url "https://github.com/kevinkirsten/otp-out/releases/download/v{{VERSION}}/otp-out_{{VERSION}}_darwin_arm64.tar.gz"
+      sha256 "{{SHA256_DARWIN_ARM64}}"
+    end
+    on_intel do
+      url "https://github.com/kevinkirsten/otp-out/releases/download/v{{VERSION}}/otp-out_{{VERSION}}_darwin_amd64.tar.gz"
+      sha256 "{{SHA256_DARWIN_AMD64}}"
+    end
+  end
+
+  on_linux do
+    on_arm do
+      url "https://github.com/kevinkirsten/otp-out/releases/download/v{{VERSION}}/otp-out_{{VERSION}}_linux_arm64.tar.gz"
+      sha256 "{{SHA256_LINUX_ARM64}}"
+    end
+    on_intel do
+      url "https://github.com/kevinkirsten/otp-out/releases/download/v{{VERSION}}/otp-out_{{VERSION}}_linux_amd64.tar.gz"
+      sha256 "{{SHA256_LINUX_AMD64}}"
+    end
+  end
+
+  def install
+    bin.install "otp-out"
+  end
+
+  test do
+    assert_match "otp-out #{version}", shell_output("#{bin}/otp-out --version")
+    assert_match "Exemplo / ana@exemplo.com (TOTP)",
+      pipe_output("#{bin}/otp-out --dry-run -",
+        "otpauth-migration://offline?data=CiwKCkhlbGxvId6tvu8SD2FuYUBleGVtcGxvLmNvbRoHRXhlbXBsbyABKAEwAhABGAEgACiSIQ%3D%3D")
+  end
+end

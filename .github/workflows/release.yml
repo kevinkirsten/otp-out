@@ -1,0 +1,118 @@
+# Release: runs when a tag v* is pushed.
+#
+#   1. GoReleaser builds the 6 binaries, the archives and checksums.txt and
+#      creates the GitHub release.
+#   2. The Homebrew formula is rendered from packaging/homebrew/otp-out.rb.tmpl
+#      and pushed to kevinkirsten/homebrew-tap with a deploy key
+#      (secret HOMEBREW_TAP_DEPLOY_KEY, write access to that repository only).
+#   3. The npm packages are built from dist/ and published with npm Trusted
+#      Publishing (OIDC): no npm token is stored. Each of the 7 packages must
+#      have this repository and this workflow file (release.yml) configured
+#      as trusted publisher on npmjs.com.
+#   4. The winget manifests are rendered and attached to the release as an
+#      artifact. The pull request to microsoft/winget-pkgs is opened by hand.
+name: release
+
+on:
+  push:
+    tags: ["v*"]
+
+permissions:
+  contents: read
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write # create the GitHub release
+      id-token: write # npm Trusted Publishing
+    steps:
+      - uses: actions/checkout@v7.0.1
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-go@v7.1.0
+        with:
+          go-version: "1.27.x"
+
+      - name: Test
+        run: go test -tags nodynamic,wasm2go ./...
+
+      - uses: goreleaser/goreleaser-action@v7.3.0
+        with:
+          distribution: goreleaser
+          version: v2.20.3
+          args: release --clean
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - uses: actions/setup-node@v7.1.0
+        with:
+          node-version: "24"
+          registry-url: "https://registry.npmjs.org"
+          package-manager-cache: false
+
+      - name: Version
+        id: version
+        run: echo "version=${GITHUB_REF_NAME#v}" >> "$GITHUB_OUTPUT"
+
+      - name: Homebrew formula
+        env:
+          VERSION: ${{ steps.version.outputs.version }}
+          DEPLOY_KEY: ${{ secrets.HOMEBREW_TAP_DEPLOY_KEY }}
+        run: |
+          set -euo pipefail
+          if [ -z "$DEPLOY_KEY" ]; then
+            echo "::warning::HOMEBREW_TAP_DEPLOY_KEY is not set; skipping the Homebrew tap"
+            exit 0
+          fi
+          case "$VERSION" in *-*) echo "pre-release: tap not updated"; exit 0;; esac
+          # The key stays in the agent's memory, never in a file.
+          eval "$(ssh-agent -s)"
+          trap 'ssh-agent -k >/dev/null' EXIT
+          printf '%s\n' "$DEPLOY_KEY" | ssh-add - >/dev/null
+          mkdir -p ~/.ssh
+          # GitHub's published host key (docs: "GitHub's SSH key fingerprints").
+          echo "github.com ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOMqqnkVzrm0SdG6UOoqKLsabgH5C9okWi0dh2l9GKJl" >> ~/.ssh/known_hosts
+          git clone --depth 1 git@github.com:kevinkirsten/homebrew-tap.git tap
+          mkdir -p tap/Formula
+          node packaging/fill.mjs --version "$VERSION" --checksums dist/checksums.txt \
+            --template packaging/homebrew/otp-out.rb.tmpl --out tap/Formula/otp-out.rb
+          cd tap
+          git config user.name "otp-out release"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add Formula/otp-out.rb
+          if git diff --cached --quiet; then
+            echo "formula unchanged"
+            exit 0
+          fi
+          git commit -m "otp-out ${VERSION}"
+          git push origin HEAD
+
+      - name: npm packages
+        env:
+          VERSION: ${{ steps.version.outputs.version }}
+        run: |
+          set -euo pipefail
+          # Trusted Publishing needs npm 11.5.1 or later.
+          npm install -g npm@11.21.3
+          node packaging/npm/build.mjs --dist dist --out npm-dist --version "$VERSION"
+          tag=latest
+          case "$VERSION" in *-*) tag=next;; esac
+          # Platform packages first, then the launcher that depends on them.
+          for dir in npm-dist/otp-out-*; do
+            (cd "$dir" && npm publish --access public --tag "$tag")
+          done
+          (cd npm-dist/otp-out && npm publish --access public --tag "$tag")
+
+      - name: winget manifests
+        env:
+          VERSION: ${{ steps.version.outputs.version }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -euo pipefail
+          out="winget/manifests/k/KevinKirsten/otp-out/${VERSION}"
+          node packaging/fill.mjs --version "$VERSION" --checksums dist/checksums.txt \
+            --template-dir packaging/winget --out-dir "$out"
+          tar -czf "winget-manifests-${VERSION}.tar.gz" -C winget manifests
+          gh release upload "$GITHUB_REF_NAME" "winget-manifests-${VERSION}.tar.gz" --clobber

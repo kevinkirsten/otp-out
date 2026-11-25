@@ -1,0 +1,84 @@
+# GoReleaser (open source edition, v2) configuration for otp-out.
+# Docs: https://goreleaser.com/customization/
+#
+# Homebrew: GoReleaser deprecated its "brews" section (formulas) in v2.10 in
+# favor of casks. otp-out ships a FORMULA on purpose: Homebrew does not put
+# formula downloads in quarantine, so the unsigned binary runs without a
+# Gatekeeper prompt. The formula is rendered from
+# packaging/homebrew/otp-out.rb.tmpl by .github/workflows/release.yml.
+#
+# npm and winget are also built from dist/ by scripts in packaging/.
+version: 2
+
+project_name: otp-out
+
+before:
+  hooks:
+    - go mod verify
+
+builds:
+  - id: otp-out
+    main: .
+    binary: otp-out
+    env:
+      - CGO_ENABLED=0
+    flags:
+      - -trimpath
+    # nodynamic: never try to load a system libheif at startup.
+    # wasm2go: the HEIC decoder is transpiled to Go, no runtime code generation.
+    tags:
+      - nodynamic
+      - wasm2go
+    ldflags:
+      - -s -w -X main.version={{ .Version }}
+    goos:
+      - darwin
+      - linux
+      - windows
+    goarch:
+      - amd64
+      - arm64
+    mod_timestamp: "{{ .CommitTimestamp }}"
+
+archives:
+  - id: otp-out
+    ids:
+      - otp-out
+    formats:
+      - tar.gz
+    format_overrides:
+      - goos: windows
+        formats:
+          - zip
+    name_template: "{{ .ProjectName }}_{{ .Version }}_{{ .Os }}_{{ .Arch }}"
+    files:
+      - LICENSE
+      - README.md
+      - README.pt-BR.md
+
+checksum:
+  name_template: checksums.txt
+  algorithm: sha256
+
+snapshot:
+  version_template: "{{ incpatch .Version }}-next"
+
+changelog:
+  sort: asc
+  filters:
+    exclude:
+      - "^docs:"
+      - "^test:"
+      - "^ci:"
+
+release:
+  github:
+    owner: kevinkirsten
+    name: otp-out
+  draft: false
+  prerelease: auto
+  footer: |
+    Install with `brew install kevinkirsten/tap/otp-out`, `winget install KevinKirsten.otp-out`,
+    `npx otp-out` or `go run github.com/kevinkirsten/otp-out@{{ .Tag }}`.
+    The binaries are not code-signed: see the README for the Gatekeeper and SmartScreen notes.
+    Verify a download with `shasum -a 256 -c checksums.txt --ignore-missing`.

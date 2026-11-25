@@ -1,0 +1,41 @@
+# Build output
+/dist/
+/npm-dist/
+/otp-out
+/otp-out.exe
+*.test
+coverage.out
+
+# Never commit screenshots or exports of the CLI: they contain secrets.
+# (Only the repository root and the Go folders; web/ manages its own files.)
+/*.png
+/*.jpg
+/*.jpeg
+/*.webp
+/*.heic
+/*.HEIC
+/*.gif
+/*.json.out
+/internal/**/*.png
+/internal/**/*.jpg
+/internal/**/*.webp
+/internal/**/*.heic
+/testdata/**/*.png
+/testdata/**/*.jpg
+/testdata/**/*.webp
+/testdata/**/*.heic
+
+# Editors and OS
+.DS_Store
+.idea/
+.vscode/
+
+# Node (root dev scripts; web/ has its own ignores)
+node_modules/
+
+# Local manual-test files (synthetic QR images)
+/tmp/
+
+# Local planning notes and editor config
+/plano.html
+/.claude/

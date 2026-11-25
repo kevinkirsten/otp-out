@@ -1,0 +1,37 @@
+{
+  "name": "otp-out",
+  "version": "0.0.0",
+  "description": "Turn a Google Authenticator export QR code into otpauth:// URIs, one per account.",
+  "keywords": [
+    "2fa",
+    "otp",
+    "totp",
+    "authenticator",
+    "google-authenticator",
+    "otpauth",
+    "qr-code",
+    "cli"
+  ],
+  "homepage": "https://github.com/kevinkirsten/otp-out#readme",
+  "bugs": {
+    "url": "https://github.com/kevinkirsten/otp-out/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kevinkirsten/otp-out.git"
+  },
+  "license": "MIT",
+  "author": "Kevin Kirsten",
+  "bin": {
+    "otp-out": "bin/otp-out.js"
+  },
+  "files": [
+    "bin/otp-out.js",
+    "README.md",
+    "LICENSE"
+  ],
+  "engines": {
+    "node": ">=18"
+  },
+  "optionalDependencies": {}
+}
