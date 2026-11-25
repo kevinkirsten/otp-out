@@ -1,13 +1,13 @@
 # Publica a página no GitHub Pages (https://kevinkirsten.github.io/otp-out/)
-# Por enquanto só manualmente.
+# a cada push na main que mude web/, ou manualmente.
 name: pages
 
-# For now it only runs when started by hand. The push trigger comes back once
-# GitHub Pages is enabled for the repository:
-#   push:
-#     branches: [main]
-#     paths: ["web/**", ".github/workflows/pages.yml"]
 on:
+  push:
+    branches: [main]
+    paths:
+      - "web/**"
+      - ".github/workflows/pages.yml"
   workflow_dispatch:
 
 permissions:
