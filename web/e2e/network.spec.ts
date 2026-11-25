@@ -24,7 +24,11 @@ function distFiles(dir = distDir): string[] {
 /** Caminhos que a página pode pedir: só os arquivos do próprio build. */
 function allowedPaths(): Set<string> {
   const paths = new Set(["/otp-out/"]);
-  for (const file of distFiles()) paths.add(`/otp-out/${file}`);
+  for (const file of distFiles()) {
+    paths.add(`/otp-out/${file}`);
+    // Página de idioma: o navegador e o service worker pedem pela pasta (/otp-out/pt/).
+    if (file.endsWith("/index.html")) paths.add(`/otp-out/${file.slice(0, -"index.html".length)}`);
+  }
   return paths;
 }
 
@@ -150,6 +154,9 @@ test.describe("offline", () => {
     // Recarrega uma vez para a página passar a ser controlada pelo service worker.
     await page.reload();
     await expect.poll(() => page.evaluate(() => !!navigator.serviceWorker.controller)).toBe(true);
+    // Espera esta página terminar de carregar o leitor antes de cortar a rede:
+    // senão o download em andamento falha e aparece como erro no console (Firefox).
+    await expect(page.locator("html")).toHaveAttribute("data-reader", "ready", { timeout: 20_000 });
 
     await context.setOffline(true);
     await page.reload();

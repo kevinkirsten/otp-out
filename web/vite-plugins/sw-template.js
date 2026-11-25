@@ -34,9 +34,12 @@ self.addEventListener("fetch", (event) => {
   if (url.origin !== self.location.origin || !request.url.startsWith(scope)) return;
 
   if (request.mode === "navigate") {
+    // Página de cada idioma (/, /pt/, /es/): primeiro o cache. Sem rede e fora
+    // do cache, cai na raiz, que detecta o idioma do navegador.
+    const pageUrl = url.pathname.endsWith("/index.html") ? new URL("./", url).href : url.origin + url.pathname;
     event.respondWith(
       caches.open(CACHE).then((cache) =>
-        cache.match(url.pathname === new URL(indexUrl).pathname ? indexUrl : request, { ignoreSearch: true, ignoreVary: true }).then(
+        cache.match(pageUrl, { ignoreSearch: true, ignoreVary: true }).then(
           (cached) => cached || fetch(request).catch(() => cache.match(indexUrl)),
         ),
       ),

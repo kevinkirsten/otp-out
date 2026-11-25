@@ -5,8 +5,12 @@ import { useI18n } from "@/i18n";
 import { cn } from "@/lib/utils";
 
 // Phones and tablets have no drag and drop and no paste shortcut.
-const isTouchOnly = typeof window !== "undefined" && window.matchMedia("(hover: none) and (pointer: coarse)").matches;
-const isMac = typeof navigator !== "undefined" && /Mac|iPhone|iPad/i.test(navigator.platform || navigator.userAgent);
+// No HTML estático do build (import.meta.env.SSR) o texto sai sempre igual,
+// sem depender da máquina que rodou o build.
+const isTouchOnly =
+  !import.meta.env.SSR && typeof window !== "undefined" && window.matchMedia("(hover: none) and (pointer: coarse)").matches;
+const isMac =
+  !import.meta.env.SSR && typeof navigator !== "undefined" && /Mac|iPhone|iPad/i.test(navigator.platform || navigator.userAgent);
 
 interface IntakeProps {
   busy: boolean;

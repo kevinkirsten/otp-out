@@ -33,7 +33,9 @@ test.describe("estado vazio", () => {
   test("a página 404 existe e aponta para a principal", async ({ page }) => {
     await page.goto("404.html");
     await expect(page.getByRole("heading", { level: 1 })).toHaveText("Página não encontrada");
-    await expect(page.getByRole("link", { name: "Abrir o otp-out" })).toHaveAttribute("href", "/otp-out/");
+    await expect(page.getByRole("link", { name: "Abrir o otp-out" })).toHaveAttribute("href", "/otp-out/pt/");
+    await expect(page.getByRole("link", { name: "Open otp-out" })).toHaveAttribute("href", "/otp-out/");
+    await expect(page.getByRole("link", { name: "Abrir otp-out", exact: true })).toHaveAttribute("href", "/otp-out/es/");
   });
 });
 

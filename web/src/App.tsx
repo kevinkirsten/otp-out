@@ -2,6 +2,7 @@ import { CircleAlertIcon, CopyIcon, InboxIcon, LoaderCircleIcon, Trash2Icon, Tri
 import * as React from "react";
 import { AccountCard } from "@/components/AccountCard";
 import { CameraDialog } from "@/components/CameraDialog";
+import { FaqSection } from "@/components/Faq";
 import { Header, PrivacyBar } from "@/components/Header";
 import { Intake } from "@/components/Intake";
 import { CliCard, HowToCard, PrivacyCard } from "@/components/Sidebar";
@@ -37,7 +38,9 @@ function errorMessage(m: Messages, f: (t: string, v?: Record<string, string | nu
   }
 }
 
-const cameraAvailable = typeof navigator !== "undefined" && !!navigator.mediaDevices?.getUserMedia;
+// No HTML estático gerado no build o botão da câmera aparece, para a tela não
+// mudar quando o React monta. No navegador sem câmera ele some.
+const cameraAvailable = import.meta.env.SSR || (typeof navigator !== "undefined" && !!navigator.mediaDevices?.getUserMedia);
 
 function Main() {
   const { m, f, p } = useI18n();
@@ -276,6 +279,8 @@ function Main() {
         <CliCard />
       </aside>
 
+      <FaqSection />
+
       <CameraDialog
         returnFocusTo={cameraButtonRef}
         open={cameraOpen}
@@ -300,6 +305,9 @@ export function App() {
       >
         {m.skipToContent}
       </a>
+      <noscript>
+        <p className="border-b border-warning-border bg-warning-soft px-4 py-3 text-center text-[0.95rem] font-medium">{m.noscript}</p>
+      </noscript>
       <PrivacyBar />
       <Header />
       <Main />

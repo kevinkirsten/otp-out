@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="pt-BR">
+<html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta
@@ -8,11 +8,6 @@
     />
     <meta name="referrer" content="no-referrer" />
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-    <title>otp-out: leve suas contas do Google Authenticator para outro app</title>
-    <meta
-      name="description"
-      content="Envie o print do QR de exportação do Google Authenticator e receba o link otpauth:// de cada conta. Tudo acontece no seu navegador. Nada é enviado."
-    />
     <meta name="color-scheme" content="light dark" />
     <meta name="theme-color" content="#fbfaf8" media="(prefers-color-scheme: light)" />
     <meta name="theme-color" content="#161615" media="(prefers-color-scheme: dark)" />
@@ -20,32 +15,13 @@
     <link rel="icon" href="/favicon-32.png" type="image/png" sizes="32x32" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     <link rel="manifest" href="/manifest.webmanifest" />
-    <link rel="canonical" href="https://kevinkirsten.github.io/otp-out/" />
-    <link rel="alternate" hreflang="pt-BR" href="https://kevinkirsten.github.io/otp-out/" />
-    <link rel="alternate" hreflang="en" href="https://kevinkirsten.github.io/otp-out/" />
-    <link rel="alternate" hreflang="es" href="https://kevinkirsten.github.io/otp-out/" />
-    <meta property="og:type" content="website" />
-    <meta property="og:site_name" content="otp-out" />
-    <meta property="og:title" content="otp-out: leve suas contas do Google Authenticator para outro app" />
-    <meta
-      property="og:description"
-      content="Envie o print do QR de exportação e receba o link otpauth:// de cada conta. Tudo no navegador, nada é enviado."
-    />
-    <meta property="og:url" content="https://kevinkirsten.github.io/otp-out/" />
-    <meta property="og:image" content="https://kevinkirsten.github.io/otp-out/og.png" />
-    <meta property="og:image:width" content="1200" />
-    <meta property="og:image:height" content="630" />
-    <meta property="og:image:alt" content="otp-out: do QR do Google Authenticator para o link otpauth:// de cada conta" />
-    <meta property="og:locale" content="pt_BR" />
-    <meta property="og:locale:alternate" content="en_US" />
-    <meta property="og:locale:alternate" content="es_ES" />
-    <meta name="twitter:card" content="summary_large_image" />
+    <!-- Título, descrição, canonical, hreflang, Open Graph e JSON-LD de cada idioma:
+         vite-plugins/prerender.ts troca o marcador abaixo no build. -->
+    <!--otp-out:head-->
   </head>
   <body>
-    <div id="root"></div>
-    <noscript>
-      <p class="noscript">Esta página precisa de JavaScript para ler o QR. This page needs JavaScript. Esta página necesita JavaScript.</p>
-    </noscript>
+    <!-- Conteúdo estático de cada idioma (o app renderizado no build). O React troca ao montar. -->
+    <div id="root"><!--otp-out:body--></div>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>

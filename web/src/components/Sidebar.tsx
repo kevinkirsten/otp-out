@@ -1,6 +1,6 @@
 import { ExternalLinkIcon, ShieldCheckIcon, SmartphoneIcon, TerminalIcon } from "lucide-react";
 import { useI18n } from "@/i18n";
-import { CLI_URL, REPO_URL } from "@/lib/links";
+import { REPO_URL } from "@/lib/links";
 
 export function PrivacyCard() {
   const { m } = useI18n();
@@ -46,17 +46,38 @@ export function HowToCard() {
   );
 }
 
+const INSTALL_COMMANDS = [
+  { label: "cliInstallBrew", commands: ["brew install kevinkirsten/tap/otp-out"] },
+  { label: "cliInstallWinget", commands: ["winget install KevinKirsten.otp-out"] },
+  { label: "cliInstallNpx", commands: ["npx otp-out", "pnpm dlx otp-out"] },
+] as const;
+
 export function CliCard() {
   const { m } = useI18n();
   return (
-    <section aria-labelledby="cli" className="flex flex-col gap-2 rounded-xl border bg-card p-5">
+    <section aria-labelledby="cli" className="flex flex-col gap-3 rounded-xl border bg-card p-5">
       <h2 id="cli" className="flex items-center gap-2 text-lg font-semibold">
         <TerminalIcon className="size-5 shrink-0 text-muted-foreground" aria-hidden="true" />
         {m.cliTitle}
       </h2>
       <p className="text-[0.95rem]">{m.cliBody}</p>
+      <ul className="flex flex-col gap-3" data-testid="cli-install">
+        {INSTALL_COMMANDS.map((item) => (
+          <li key={item.label} className="flex flex-col gap-1">
+            <span className="text-sm text-muted-foreground">{m[item.label]}</span>
+            {item.commands.map((command) => (
+              <code
+                key={command}
+                className="block rounded-md bg-muted px-3 py-2 font-mono text-sm [overflow-wrap:anywhere] text-foreground"
+              >
+                {command}
+              </code>
+            ))}
+          </li>
+        ))}
+      </ul>
       <a
-        href={CLI_URL}
+        href={REPO_URL}
         target="_blank"
         rel="noopener noreferrer"
         className="inline-flex min-h-11 items-center gap-1.5 self-start font-medium"

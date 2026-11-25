@@ -11,7 +11,9 @@ type Plural = { one: string; other: string };
 const pt = {
   metaTitle: "otp-out: leve suas contas do Google Authenticator para outro app",
   metaDescription:
-    "Envie o print do QR de exportação do Google Authenticator e receba o link otpauth:// de cada conta. Tudo acontece no seu navegador. Nada é enviado.",
+    "Envie o print do QR de exportação do Google Authenticator e receba o link otpauth:// de cada conta, pronto para o 1Password, o Bitwarden ou o Aegis. Tudo acontece no seu navegador. Nada é enviado.",
+  ogImageAlt: "otp-out: do QR do Google Authenticator para o link otpauth:// de cada conta",
+  noscript: "Para ler o QR, esta página precisa de JavaScript. As instruções abaixo funcionam sem ele.",
   skipToContent: "Pular para o conteúdo",
   privacyBar: "Tudo acontece neste navegador. Nada é enviado.",
   privacyBarLink: "Como conferir",
@@ -119,8 +121,38 @@ const pt = {
   howAndroid:
     "No Android, o Google Authenticator bloqueia o print dessa tela. Abra esta página em outro aparelho e use a câmera.",
   cliTitle: "Prefere o terminal?",
-  cliBody: "O CLI otp-out faz o mesmo no seu computador, também sem rede.",
+  cliBody: "O CLI otp-out faz o mesmo no seu computador, também sem rede. Ele lê os prints, copia uma conta por vez e pode gravar direto no 1Password.",
+  cliInstallBrew: "Homebrew (macOS e Linux)",
+  cliInstallWinget: "winget (Windows)",
+  cliInstallNpx: "npm ou pnpm, sem instalar",
   cliLink: "Ver o CLI no GitHub",
+  faqTitle: "Perguntas frequentes",
+  faq: [
+    {
+      q: "Como passo as contas do Google Authenticator para o 1Password, o Bitwarden ou o Aegis?",
+      a: "Exporte as contas no Google Authenticator e envie o print do QR aqui. A página mostra cada conta com o link otpauth://, o segredo e um QR só daquela conta. No 1Password e no Bitwarden, cole o link no campo de código de verificação (TOTP) do item. No Aegis, toque em + e leia o QR da conta. Antes de apagar a conta do Google Authenticator, confira se o app novo gera o mesmo código.",
+    },
+    {
+      q: "O que é um link otpauth-migration:// e por que os outros apps não leem?",
+      a: "É o link que fica dentro do QR de exportação do Google Authenticator. Ele junta várias contas num formato próprio do Google, e a maioria dos apps só entende o padrão `otpauth://`, com uma conta por link. A página abre o link de exportação e monta um `otpauth://` para cada conta.",
+    },
+    {
+      q: "É seguro enviar o print do QR para esta página?",
+      a: "A leitura acontece no seu navegador. A página não envia nada para nenhum servidor, não usa analytics e não grava as contas. Para conferir, abra a aba Network das ferramentas do desenvolvedor e envie o print, ou use a página com o modo avião ligado. O código é aberto, com licença MIT, em github.com/kevinkirsten/otp-out.",
+    },
+    {
+      q: "A exportação veio em vários QRs. O que eu faço?",
+      a: "Com muitas contas, o Google Authenticator divide a exportação e mostra \"1 de 3\", \"2 de 3\" e assim por diante. Tire um print de cada QR e envie todos, de uma vez ou um por vez. A página junta as partes e avisa se faltar alguma.",
+    },
+    {
+      q: "O Android não deixa tirar print da tela de exportação. E agora?",
+      a: "O Google Authenticator bloqueia o print dessa tela no Android. Abra esta página em outro aparelho, como um computador com webcam ou outro celular, toque em Usar a câmera e aponte para o QR. Também funciona fotografar a tela com outro aparelho e enviar a foto.",
+    },
+    {
+      q: "Existe versão para o terminal?",
+      a: "Sim. O CLI otp-out faz a mesma conversão no computador, sem rede. Instale com `brew install kevinkirsten/tap/otp-out` no macOS e no Linux ou `winget install KevinKirsten.otp-out` no Windows, ou rode sem instalar com `npx otp-out` ou `pnpm dlx otp-out`.",
+    },
+  ],
   footer: "otp-out, licença MIT.",
   pasteNotice: "Nada foi colado que parecesse um QR ou um link de exportação.",
 };
@@ -130,7 +162,9 @@ export type Messages = typeof pt;
 const en: Messages = {
   metaTitle: "otp-out: move your Google Authenticator accounts to another app",
   metaDescription:
-    "Upload a screenshot of the Google Authenticator export QR and get the otpauth:// link of each account. Everything happens in your browser. Nothing is sent.",
+    "Upload a screenshot of the Google Authenticator export QR and get the otpauth:// link of each account, ready for 1Password, Bitwarden or Aegis. Everything happens in your browser. Nothing is sent.",
+  ogImageAlt: "otp-out: from the Google Authenticator QR to the otpauth:// link of each account",
+  noscript: "Reading the QR needs JavaScript. The instructions below work without it.",
   skipToContent: "Skip to content",
   privacyBar: "Everything happens in this browser. Nothing is sent.",
   privacyBarLink: "How to check",
@@ -238,8 +272,38 @@ const en: Messages = {
   howAndroid:
     "On Android, Google Authenticator blocks screenshots of that screen. Open this page on another device and use the camera.",
   cliTitle: "Prefer the terminal?",
-  cliBody: "The otp-out CLI does the same on your computer, also without network.",
+  cliBody: "The otp-out CLI does the same on your computer, also without network. It reads the screenshots, copies one account at a time and can save straight into 1Password.",
+  cliInstallBrew: "Homebrew (macOS and Linux)",
+  cliInstallWinget: "winget (Windows)",
+  cliInstallNpx: "npm or pnpm, without installing",
   cliLink: "See the CLI on GitHub",
+  faqTitle: "Frequently asked questions",
+  faq: [
+    {
+      q: "How do I move my Google Authenticator accounts to 1Password, Bitwarden or Aegis?",
+      a: "Export the accounts in Google Authenticator and upload a screenshot of the QR here. The page shows each account with its otpauth:// link, its secret and a QR for that account alone. In 1Password and Bitwarden, paste the link into the item's one-time password (TOTP) field. In Aegis, tap + and scan the account QR. Before you delete the account from Google Authenticator, check that the new app shows the same code.",
+    },
+    {
+      q: "What is an otpauth-migration:// link and why can't other apps read it?",
+      a: "It is the link inside the Google Authenticator export QR. It packs several accounts into a format of Google's own, and most apps only understand the standard `otpauth://` link, with one account per link. The page opens the export link and builds one `otpauth://` link per account.",
+    },
+    {
+      q: "Is it safe to upload the QR screenshot to this page?",
+      a: "Reading happens in your browser. The page sends nothing to any server, uses no analytics and does not save the accounts. To check, open the Network tab of the developer tools and upload the screenshot, or use the page with airplane mode on. The code is open source, under the MIT license, at github.com/kevinkirsten/otp-out.",
+    },
+    {
+      q: "The export came as several QR codes. What do I do?",
+      a: "With many accounts, Google Authenticator splits the export and shows \"1 of 3\", \"2 of 3\" and so on. Take a screenshot of each QR and upload them all, at once or one at a time. The page puts the parts together and tells you if one is missing.",
+    },
+    {
+      q: "Android won't let me take a screenshot of the export screen. What now?",
+      a: "Google Authenticator blocks screenshots of that screen on Android. Open this page on another device, such as a computer with a webcam or another phone, tap Use the camera and point it at the QR. Taking a photo of the screen with another device and uploading it also works.",
+    },
+    {
+      q: "Is there a command line version?",
+      a: "Yes. The otp-out CLI does the same conversion on your computer, without network. Install it with `brew install kevinkirsten/tap/otp-out` on macOS and Linux or `winget install KevinKirsten.otp-out` on Windows, or run it without installing with `npx otp-out` or `pnpm dlx otp-out`.",
+    },
+  ],
   footer: "otp-out, MIT license.",
   pasteNotice: "Nothing pasted looked like a QR or an export link.",
 };
@@ -247,7 +311,9 @@ const en: Messages = {
 const es: Messages = {
   metaTitle: "otp-out: lleva tus cuentas de Google Authenticator a otra app",
   metaDescription:
-    "Sube la captura del QR de exportación de Google Authenticator y recibe el enlace otpauth:// de cada cuenta. Todo pasa en tu navegador. No se envía nada.",
+    "Sube la captura del QR de exportación de Google Authenticator y recibe el enlace otpauth:// de cada cuenta, listo para 1Password, Bitwarden o Aegis. Todo pasa en tu navegador. No se envía nada.",
+  ogImageAlt: "otp-out: del QR de Google Authenticator al enlace otpauth:// de cada cuenta",
+  noscript: "Para leer el QR, esta página necesita JavaScript. Las instrucciones de abajo funcionan sin él.",
   skipToContent: "Ir al contenido",
   privacyBar: "Todo pasa en este navegador. No se envía nada.",
   privacyBarLink: "Cómo comprobarlo",
@@ -355,8 +421,38 @@ const es: Messages = {
   howAndroid:
     "En Android, Google Authenticator bloquea las capturas de esa pantalla. Abre esta página en otro dispositivo y usa la cámara.",
   cliTitle: "¿Prefieres la terminal?",
-  cliBody: "El CLI otp-out hace lo mismo en tu computadora, también sin red.",
+  cliBody: "El CLI otp-out hace lo mismo en tu computadora, también sin red. Lee las capturas, copia una cuenta por vez y puede guardarlas directo en 1Password.",
+  cliInstallBrew: "Homebrew (macOS y Linux)",
+  cliInstallWinget: "winget (Windows)",
+  cliInstallNpx: "npm o pnpm, sin instalar",
   cliLink: "Ver el CLI en GitHub",
+  faqTitle: "Preguntas frecuentes",
+  faq: [
+    {
+      q: "¿Cómo paso mis cuentas de Google Authenticator a 1Password, Bitwarden o Aegis?",
+      a: "Exporta las cuentas en Google Authenticator y sube la captura del QR aquí. La página muestra cada cuenta con su enlace otpauth://, su secreto y un QR solo de esa cuenta. En 1Password y en Bitwarden, pega el enlace en el campo de código de verificación (TOTP) del elemento. En Aegis, toca + y escanea el QR de la cuenta. Antes de borrar la cuenta de Google Authenticator, revisa que la app nueva muestre el mismo código.",
+    },
+    {
+      q: "¿Qué es un enlace otpauth-migration:// y por qué las otras apps no lo leen?",
+      a: "Es el enlace que va dentro del QR de exportación de Google Authenticator. Junta varias cuentas en un formato propio de Google, y la mayoría de las apps solo entiende el estándar `otpauth://`, con una cuenta por enlace. La página abre el enlace de exportación y arma un `otpauth://` para cada cuenta.",
+    },
+    {
+      q: "¿Es seguro subir la captura del QR a esta página?",
+      a: "La lectura pasa en tu navegador. La página no envía nada a ningún servidor, no usa analytics y no guarda las cuentas. Para comprobarlo, abre la pestaña Network de las herramientas de desarrollo y sube la captura, o usa la página con el modo avión activado. El código es abierto, con licencia MIT, en github.com/kevinkirsten/otp-out.",
+    },
+    {
+      q: "La exportación vino en varios QR. ¿Qué hago?",
+      a: "Con muchas cuentas, Google Authenticator divide la exportación y muestra \"1 de 3\", \"2 de 3\" y así. Haz una captura de cada QR y súbelas todas, juntas o de a una. La página junta las partes y avisa si falta alguna.",
+    },
+    {
+      q: "Android no me deja hacer captura de la pantalla de exportación. ¿Y ahora?",
+      a: "Google Authenticator bloquea las capturas de esa pantalla en Android. Abre esta página en otro dispositivo, como una computadora con webcam u otro celular, toca Usar la cámara y apunta al QR. También sirve sacarle una foto a la pantalla con otro dispositivo y subirla.",
+    },
+    {
+      q: "¿Hay una versión para la terminal?",
+      a: "Sí. El CLI otp-out hace la misma conversión en tu computadora, sin red. Instálalo con `brew install kevinkirsten/tap/otp-out` en macOS y Linux o `winget install KevinKirsten.otp-out` en Windows, o úsalo sin instalar con `npx otp-out` o `pnpm dlx otp-out`.",
+    },
+  ],
   footer: "otp-out, licencia MIT.",
   pasteNotice: "Nada de lo pegado parecía un QR o un enlace de exportación.",
 };

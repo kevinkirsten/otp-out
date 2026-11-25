@@ -1,0 +1,35 @@
+# otp-out
+
+> otp-out turns the QR code that Google Authenticator shows when you export your accounts into one standard otpauth:// URI per account, ready to add to 1Password, Bitwarden, Aegis, 2FAS, KeePassXC or any other authenticator. It is a free, open source (MIT) web page and command line tool. Everything runs locally: nothing is sent anywhere.
+
+The Google Authenticator export QR holds an otpauth-migration://offline?data=... link that packs several accounts into a format of Google's own. Most authenticator apps cannot read it. otp-out reads the QR from a screenshot or photo (or takes the link itself), decodes it and shows each account with its otpauth:// URI, its secret and a QR code for that account alone.
+
+Nothing leaves the browser: the web page reads the QR and builds the URIs on the device, makes no network requests after it loads, uses no analytics and does not save the accounts (they stay in the tab's memory). Its Content Security Policy blocks connections to any server (connect-src 'none'). You can check it in the Network tab of the developer tools, or use the page in airplane mode after the first visit. The command line tool makes no network connections and never writes a secret to disk.
+
+On Android, Google Authenticator blocks screenshots of the export screen. Open the page on another device and use its camera, or take a photo of the screen with another device. Large exports come as several QR codes ("1 of 3"). Upload all of them and the page warns if a part is missing.
+
+## Web page
+
+- [otp-out in English](https://kevinkirsten.github.io/otp-out/): upload the export QR screenshot, paste the link or use the camera
+- [otp-out em português](https://kevinkirsten.github.io/otp-out/pt/): the same page in Brazilian Portuguese
+- [otp-out en español](https://kevinkirsten.github.io/otp-out/es/): the same page in Spanish
+
+## Command line tool
+
+Same program on every platform, no dependencies, works offline:
+
+- Homebrew (macOS, Linux): `brew install kevinkirsten/tap/otp-out`
+- winget (Windows): `winget install KevinKirsten.otp-out`
+- npm, without installing: `npx otp-out screenshot.png`
+- pnpm, without installing: `pnpm dlx otp-out screenshot.png`
+- Go, without installing: `go run github.com/kevinkirsten/otp-out@latest screenshot.png`
+- [Binaries on GitHub Releases](https://github.com/kevinkirsten/otp-out/releases)
+
+Options: `--dry-run` (issuer and account name only), `--clipboard` (one account at a time to the clipboard), `--secrets`, `--json`, and `--op` (save into 1Password through the 1Password CLI).
+
+## Docs
+
+- [Repository](https://github.com/kevinkirsten/otp-out): source code, MIT license
+- [README](https://github.com/kevinkirsten/otp-out/blob/main/README.md): install, usage, security notes
+- [README em português](https://github.com/kevinkirsten/otp-out/blob/main/README.pt-BR.md): the same in Brazilian Portuguese
+- [Security policy](https://github.com/kevinkirsten/otp-out/blob/main/SECURITY.md)
