@@ -6,7 +6,6 @@
 class OtpOut < Formula
   desc "Turn a Google Authenticator export QR code into otpauth:// URIs"
   homepage "https://github.com/kevinkirsten/otp-out"
-  version "{{VERSION}}"
   license "MIT"
 
   on_macos do
@@ -36,9 +35,11 @@ class OtpOut < Formula
   end
 
   test do
+    # Synthetic export with a fake secret.
+    link = "otpauth-migration://offline?data=" \
+           "CiwKCkhlbGxvId6tvu8SD2FuYUBleGVtcGxvLmNvbRoHRXhlbXBsbyABKAEwAhABGAEgACiSIQ%3D%3D"
     assert_match "otp-out #{version}", shell_output("#{bin}/otp-out --version")
     assert_match "Exemplo / ana@exemplo.com (TOTP)",
-      pipe_output("#{bin}/otp-out --dry-run -",
-        "otpauth-migration://offline?data=CiwKCkhlbGxvId6tvu8SD2FuYUBleGVtcGxvLmNvbRoHRXhlbXBsbyABKAEwAhABGAEgACiSIQ%3D%3D")
+      pipe_output("#{bin}/otp-out --dry-run -", link)
   end
 end
